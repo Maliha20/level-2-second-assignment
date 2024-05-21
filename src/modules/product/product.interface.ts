@@ -5,10 +5,10 @@ export type TVariants={
 }
 export type TInventory={
      quantity: number;
-     stock: number
+     inStock: boolean
 }
 export type TProduct = {
-    id: string;
+   
     name: string;
     description: string;
     price: number;

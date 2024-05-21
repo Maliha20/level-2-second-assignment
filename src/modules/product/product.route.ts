@@ -7,5 +7,7 @@ const router = express.Router()
 //creating a product data- api
 router.post('/create-product', ProductControllers.createProduct)
 router.get('/', ProductControllers.getAllProducts )
+router.get('/:productId', ProductControllers.getAProduct)
+router.put('/:productId', ProductControllers.updateAProduct)
 
 export const ProductRoutes = router
