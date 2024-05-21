@@ -1,4 +1,5 @@
-import {Schema } from "mongoose";
+import {Schema, model } from "mongoose";
+import { TInventory, TProduct, TVariants } from "./product.interface";
 
 
 const VariantsSchema = new Schema<TVariants>({
@@ -15,6 +16,11 @@ const InventorySchema = new Schema<TInventory>({
         required: true}
 })
 const ProductSchema = new Schema<TProduct>({
+    id: {
+        type: String,
+        required: true,
+        unique: true,
+      },
     name: {type : String,
         required: true},
     description:  {type : String,
@@ -30,3 +36,5 @@ const ProductSchema = new Schema<TProduct>({
     inventory: {type: InventorySchema,
         required: true}
 })
+
+export const ProductModel = model<TProduct>('Product', ProductSchema)

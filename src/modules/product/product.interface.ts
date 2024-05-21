@@ -1,13 +1,14 @@
 
-type TVariants={
+export type TVariants={
     type: string;
     value: string
 }
-type TInventory={
+export type TInventory={
      quantity: number;
      stock: number
 }
-type TProduct = {
+export type TProduct = {
+    id: string;
     name: string;
     description: string;
     price: number;
