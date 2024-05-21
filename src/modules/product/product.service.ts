@@ -27,9 +27,26 @@ const updateAProductInDb = async (_id: string, updatedProduct: any) => {
   console.log(updatedProduct);
    return result;
 };
+ 
+
+//delete a product from database
+
+
+const deleteProductFromDb = async(_id: string)=>{
+    const result = await ProductModel.deleteOne({_id})
+    return result
+}
+
+
+
+
+
+
+
 export const ProductServices = {
   createProductIntoDb,
   getAllProductsFromDb,
   getAProductFromDb,
-  updateAProductInDb
+  updateAProductInDb,
+  deleteProductFromDb
 };
