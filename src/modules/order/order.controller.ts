@@ -6,7 +6,7 @@ const createAnOrder = async(req: Request, res: Response)=>{
 
 
     try{
-        const {order :orderData}= req.body;
+        const {order : orderData}= req.body;
         const zodOrderParsedData = OrderValidationSchema.parse(orderData)
 
        
@@ -26,6 +26,25 @@ const createAnOrder = async(req: Request, res: Response)=>{
     }
 }
 
+const getAllOrders =async(req: Request, res: Response)=>{
+    try{
+        const {email} = req.query
+      const result = await OrderServices.getAllOrdersFromDb(email as string)
+      res.status(200).json({
+        success: true,
+        message: 'Orders fetched successfully',
+        data: result,
+    })
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: "Order not found",
+            error: err,
+        })
+    }
+}
+
 export const orderController = {
-    createAnOrder
+    createAnOrder,
+    getAllOrders
 }

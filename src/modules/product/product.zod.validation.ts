@@ -16,7 +16,7 @@ const InventoryValidationSchema = z.object({
 });
 
 //Zod schema for product
-const ProductValidationSchema = z.object({
+export const ProductValidationSchema = z.object({
   name: z.string(),
   description: z.string(),
   price: z.number(),
@@ -26,4 +26,13 @@ const ProductValidationSchema = z.object({
   inventory: InventoryValidationSchema,
 });
 
-export default ProductValidationSchema;
+export const ProductUpdateValidationSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  category: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  variants: z.array(VariantsValidationSchema).optional(),
+  inventory: InventoryValidationSchema.optional(),
+})
+

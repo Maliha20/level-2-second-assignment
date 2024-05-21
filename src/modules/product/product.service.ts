@@ -23,10 +23,15 @@ const getAllProductsFromDb = async (searchTerm?: string) => {
   const result = await ProductModel.find(productQuery);
   return result;
 };
+
+//get a single product from the database
+
 const getAProductFromDb = async (_id: string) => {
   const result = await ProductModel.findOne({ _id });
   return result;
 };
+
+//update a specific product in the database
 
 const updateAProductInDb = async (_id: string, updatedProduct: any) => {
   const result = await ProductModel.updateOne(

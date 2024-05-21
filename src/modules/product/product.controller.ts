@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
-import { z } from 'zod';
-import ProductValidationSchema from './product.zod.validation';
+import { ProductUpdateValidationSchema, ProductValidationSchema } from './product.zod.validation';
 
 //create a product
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
 
-    const zodParsedData = ProductValidationSchema.parse(productData);
+    const zodParsedData = ProductValidationSchema.parse(productData)
     const result = await ProductServices.createProductIntoDb(zodParsedData);
 
     res.status(200).json({
@@ -29,6 +28,8 @@ const createProduct = async (req: Request, res: Response) => {
 const getAllProducts = async (req: Request, res: Response) => {
   try {
     const { name, description, category } = req.query;
+
+    //putting condtions for searching a product based on the field name - name, description and category
     if (name) {
       const result = await ProductServices.getAllProductsFromDb(name as string);
       res.status(200).json({
@@ -64,6 +65,8 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+//get a single product from the  database
+
 const getAProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -82,13 +85,18 @@ const getAProduct = async (req: Request, res: Response) => {
   }
 };
 
+
+// update an existing product in the database
+
 const updateAProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const updatedProduct = req.body;
+    const zodUpdateData = ProductUpdateValidationSchema.parse(updatedProduct)
+    
      const result = await ProductServices.updateAProductInDb(
       productId,
-      updatedProduct,
+      zodUpdateData,
     );
     res.status(200).json({
       success: true,
