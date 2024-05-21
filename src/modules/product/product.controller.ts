@@ -32,13 +32,35 @@ const createProduct = async(req: Request, res: Response)=>{
 
 //get all products
 const getAllProducts = async(req: Request, res :Response)=>{
+   
     try{
-        const result = await ProductServices.getAllProductsFromDb()
-        res.status(200).json({
-            success: true,
-            message: 'Products fetched successfully!',
-            data: result
-          });
+        const {name, description, category} = req.query
+        if(name){
+            const result = await ProductServices.getAllProductsFromDb(name as string)
+            res.status(200).json({
+                success: true,
+                message: 'Products fetched successfully!',
+                data: result
+              });
+        }else if(description)
+        {
+            const result = await ProductServices.getAllProductsFromDb(description as string)
+            res.status(200).json({
+                success: true,
+                message: 'Products fetched successfully!',
+                data: result
+              });
+        }
+        else{
+            const result = await ProductServices.getAllProductsFromDb(category as string)
+            res.status(200).json({
+                success: true,
+                message: 'Products fetched successfully!',
+                data: result
+              });
+        }
+        
+       
     }
     catch(err){
         res.status(500).json({
@@ -95,7 +117,8 @@ const deleteAproduct= async(req: Request, res: Response)=>{
            res.status(200).json({
             success: true,
             message: 'Product deleted successfully!',
-            data: result 
+            data: null
+
         })
     
        }catch(err){
