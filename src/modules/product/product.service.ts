@@ -1,5 +1,6 @@
 import { ProductModel } from './product.model';
 import { TProduct } from './product.interface';
+import { ProductUpdate } from './product.zod.validation';
 
 
 // create a product into the database
@@ -33,7 +34,7 @@ const getAProductFromDb = async (_id: string) => {
 
 //update a specific product in the database
 
-const updateAProductInDb = async (_id: string, updatedProduct: any) => {
+const updateAProductInDb = async (_id: string, updatedProduct: ProductUpdate) => {
   const result = await ProductModel.updateOne(
     { _id },
     {
@@ -41,7 +42,7 @@ const updateAProductInDb = async (_id: string, updatedProduct: any) => {
     },
     { new: true },
   );
-  console.log(updatedProduct);
+
   return result;
 };
 

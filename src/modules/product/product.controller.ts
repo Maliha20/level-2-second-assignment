@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import { ProductUpdateValidationSchema, ProductValidationSchema } from './product.zod.validation';
-import { ProductModel } from './product.model';
 import { Error } from 'mongoose';
 
 //create a product
@@ -17,11 +16,12 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product created successfully!',
       data: result,
     });
-  } catch (err:any) {
+  } catch (err:unknown) {
+    const error = err as Error
     res.status(500).json({
       success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
+      message: error.message || 'Something went wrong',
+      error: error,
     });
   }
 };
@@ -34,7 +34,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     //putting condtions for searching a product based on the field name - name, description and category
     if (searchTerm) 
       {
-      const result = await ProductServices.getAllProductsFromDb(searchTerm as string);
+      const result = await ProductServices.getAllProductsFromDb((searchTerm ?? '') as string);
       res.status(200).json({
         success: true,
         message: `Products matching searchTerm ' ${searchTerm} ' fetched successfully!`,
@@ -89,7 +89,7 @@ const updateAProduct = async (req: Request, res: Response) => {
     
      const result = await ProductServices.updateAProductInDb(
       productId,
-      zodUpdateData,
+      zodUpdateData
     );
     res.status(200).json({
       success: true,
@@ -114,7 +114,7 @@ const deleteAproduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Product deleted successfully!',
-      data: null,
+      data: result || null,
     });
   } catch (err) {
     res.status(500).json({

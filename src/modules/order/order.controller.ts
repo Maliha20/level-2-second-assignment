@@ -21,10 +21,11 @@ const createAnOrder = async(req: Request, res: Response)=>{
         data: result
     })
     }
-    catch(err: any){
+    catch(err: unknown){
+        const error = err as Error
         res.status(500).json({
             success: false,
-            message: err.message || 'something went wrong',
+            message:error.message || 'something went wrong',
             error: err,
         })
     }

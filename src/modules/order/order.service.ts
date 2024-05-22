@@ -23,8 +23,9 @@ const createAnOrderIntoDb = async(order:Torder)=>{
          const result = OrderModel.create(order)
           return result
       
-    }  catch(err: any){
-        throw new Error('Cannot create order ,' +  err.message)
+    }  catch(err: unknown){
+        const error =err as Error
+        throw new Error('Cannot create order ,' +  error.message)
     } 
 }
 // get all orders from db and search orders by email

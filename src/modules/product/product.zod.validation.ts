@@ -36,3 +36,4 @@ export const ProductUpdateValidationSchema = z.object({
   inventory: InventoryValidationSchema.optional(),
 })
 
+export type ProductUpdate = z.infer<typeof ProductUpdateValidationSchema>;
