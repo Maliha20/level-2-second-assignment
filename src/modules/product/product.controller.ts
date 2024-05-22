@@ -1,24 +1,26 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import { ProductUpdateValidationSchema, ProductValidationSchema } from './product.zod.validation';
+import { ProductModel } from './product.model';
+import { Error } from 'mongoose';
 
 //create a product
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
-
+  
     const zodParsedData = ProductValidationSchema.parse(productData)
     const result = await ProductServices.createProductIntoDb(zodParsedData);
-
+    
     res.status(200).json({
       success: true,
       message: 'Product created successfully!',
       data: result,
     });
-  } catch (err) {
+  } catch (err:any) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: err.message || 'Something went wrong',
       error: err,
     });
   }

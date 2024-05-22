@@ -1,15 +1,19 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./order.service";
 import OrderValidationSchema from "./order.zod.validation";
+import { ProductModel } from "../product/product.model";
+import { Error } from "mongoose";
 
 const createAnOrder = async(req: Request, res: Response)=>{
-
-
+     
     try{
         const {order : orderData}= req.body;
-        const zodOrderParsedData = OrderValidationSchema.parse(orderData)
-
        
+         const product = await ProductModel.findById(orderData.productId)
+        if(!product){
+           throw new Error('Invalid Product Id')
+        }
+    const zodOrderParsedData = OrderValidationSchema.parse(orderData)
     const result = await OrderServices.createAnOrderIntoDb(zodOrderParsedData)
     res.status(200).json({
         success: true,
@@ -17,10 +21,10 @@ const createAnOrder = async(req: Request, res: Response)=>{
         data: result
     })
     }
-    catch(err){
+    catch(err: any){
         res.status(500).json({
             success: false,
-            message: 'something went wrong',
+            message: err.message || 'something went wrong',
             error: err,
         })
     }
