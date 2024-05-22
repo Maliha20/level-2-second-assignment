@@ -29,34 +29,25 @@ const createProduct = async (req: Request, res: Response) => {
 //get all products
 const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const { name, description, category } = req.query;
+    const { searchTerm} = req.query;
 
     //putting condtions for searching a product based on the field name - name, description and category
-    if (name) {
-      const result = await ProductServices.getAllProductsFromDb(name as string);
+    if (searchTerm) 
+      {
+      const result = await ProductServices.getAllProductsFromDb(searchTerm as string);
       res.status(200).json({
         success: true,
-        message: 'Products fetched successfully!',
+        message: `Products matching searchTerm ' ${searchTerm} ' fetched successfully!`,
         data: result,
       });
-    } else if (description) {
-      const result = await ProductServices.getAllProductsFromDb(
-        description as string,
-      );
+    } 
+    else{
+      const result = await ProductServices.getAllProductsFromDb();
       res.status(200).json({
         success: true,
-        message: 'Products fetched successfully!',
+        message: "Products matching category fetched successfully!",
         data: result,
-      });
-    } else {
-      const result = await ProductServices.getAllProductsFromDb(
-        category as string,
-      );
-      res.status(200).json({
-        success: true,
-        message: 'Products fetched successfully!',
-        data: result,
-      });
+      })
     }
   } catch (err) {
     res.status(500).json({
