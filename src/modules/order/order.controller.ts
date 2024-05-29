@@ -7,13 +7,13 @@ import { Error } from "mongoose";
 const createAnOrder = async(req: Request, res: Response)=>{
      
     try{
-        const {order : orderData}= req.body;
+        const order= req.body;
        
-         const product = await ProductModel.findById(orderData.productId)
+         const product = await ProductModel.findById(order.productId)
         if(!product){
            throw new Error('Invalid Product Id')
         }
-    const zodOrderParsedData = OrderValidationSchema.parse(orderData)
+    const zodOrderParsedData = OrderValidationSchema.parse(order)
     const result = await OrderServices.createAnOrderIntoDb(zodOrderParsedData)
     res.status(200).json({
         success: true,
@@ -32,31 +32,33 @@ const createAnOrder = async(req: Request, res: Response)=>{
 }
 
 const getAllOrders =async(req: Request, res: Response)=>{
-    try{
-        const {email} = req.query
-
-      
-      const result = await OrderServices.getAllOrdersFromDb(email as string)
-      if(email){
-        res.status(200).json({
+    try {
+        const  {email} = req.query;
+    
+        if (email) 
+          {
+          const result = await OrderServices.getAllOrdersFromDb(email as string);
+          res.status(200).json({ 
             success: true,
-            message: "Orders fetched successfully for user email!",
-            data: result,
-        })
-    }else{
-         res.status(200).json({
+            message: result.length > 0 ? 'Orders fetched successfully for user email!' : 'Order not found',
+            data: result
+          });
+        } 
+        else{
+          const result = await OrderServices.getAllOrdersFromDb();
+          res.status(200).json({
             success: true,
             message: "Orders fetched successfully!",
             data: result,
-        })
-    }
-    }catch(err){
+          })
+        }
+      } catch (err) {
         res.status(500).json({
-            success: false,
-            message: "Order not found",
-            error: err,
-        })
-    }
+          success: false,
+          message: 'Order not found',
+          error: err,
+        });
+      }
 }
 
 export const orderController = {

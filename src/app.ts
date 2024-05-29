@@ -9,12 +9,27 @@ app.use(express.json());
 app.use(cors());
 
 //application routes here
-app.use('/api/products/', ProductRoutes);
-app.use('/api/orders/', OrderRoutes);
+app.use('/api/products', ProductRoutes);
+app.use('/api/orders', OrderRoutes);
+
+
+
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 console.log(process.cwd());
 
+
+const notFound = (req: Request, res:Response)=>{
+  
+  return res.status(400).json({
+   success: false, 
+   message: 'Route not found',
+   error : " "
+})
+
+} 
+app.use(notFound)
 export default app;

@@ -6,9 +6,9 @@ import { Error } from 'mongoose';
 //create a product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const  product  = req.body;
   
-    const zodParsedData = ProductValidationSchema.parse(productData)
+    const zodParsedData = ProductValidationSchema.parse(product)
     const result = await ProductServices.createProductIntoDb(zodParsedData);
     
     res.status(200).json({
@@ -45,7 +45,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       const result = await ProductServices.getAllProductsFromDb();
       res.status(200).json({
         success: true,
-        message: "Products matching category fetched successfully!",
+        message: "Products fetched successfully!",
         data: result,
       })
     }
@@ -53,7 +53,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Products not found',
-      error: err,
+    
     });
   }
 };
@@ -62,7 +62,7 @@ const getAllProducts = async (req: Request, res: Response) => {
 
 const getAProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params;
+    const {productId}  = req.params;
     const result = await ProductServices.getAProductFromDb(productId);
     res.status(200).json({
       success: true,
@@ -72,8 +72,8 @@ const getAProduct = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Products not found',
-      error: err,
+      message:  'Product not found',
+      
     });
   }
 };
