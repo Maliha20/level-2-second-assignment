@@ -12,10 +12,18 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 //application routes here
-app.use('/api/products/', product_route_1.ProductRoutes);
-app.use('/api/orders/', order_route_1.OrderRoutes);
+app.use('/api/products', product_route_1.ProductRoutes);
+app.use('/api/orders', order_route_1.OrderRoutes);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 console.log(process.cwd());
+const notFound = (req, res) => {
+    return res.status(400).json({
+        success: false,
+        message: 'Route not found',
+        error: " "
+    });
+};
+app.use(notFound);
 exports.default = app;
