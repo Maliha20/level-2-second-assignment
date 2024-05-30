@@ -28,6 +28,12 @@ const getAllProductsFromDb = async (searchTerm?: string) => {
 //get a single product from the database
 
 const getAProductFromDb = async (_id: string) => {
+
+  const doesProductExist = await ProductModel.findOne({_id :_id})
+
+  if(!doesProductExist){
+    throw new Error('Product not found!')
+  }
   const result = await ProductModel.findOne({ _id });
   return result;
 };
@@ -35,6 +41,11 @@ const getAProductFromDb = async (_id: string) => {
 //update a specific product in the database
 
 const updateAProductInDb = async (_id: string, updatedProduct: ProductUpdate) => {
+
+  // const doesProductExist = await ProductModel.findOne({_id :_id})
+  // if(!doesProductExist){
+  //   throw new Error('Product not found!')
+  // }
   const result = await ProductModel.updateOne(
     { _id },
     {

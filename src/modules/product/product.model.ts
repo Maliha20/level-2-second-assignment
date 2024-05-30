@@ -25,4 +25,15 @@ const ProductSchema = new Schema<TProduct>({
   inventory: { type: InventorySchema, required: true },
 });
 
+ProductSchema.pre('updateOne', async function(next){
+ const query = this.getQuery()
+  const doesProductExist = await ProductModel.findOne(query)
+    if(!doesProductExist){
+        throw new Error('Product does not exist!')
+    }
+  next()
+})
+
+
+
 export const ProductModel = model<TProduct>('Product', ProductSchema);

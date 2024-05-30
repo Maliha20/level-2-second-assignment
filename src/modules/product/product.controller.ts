@@ -99,7 +99,7 @@ const updateAProduct = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'something went wrong',
+      message: 'Product not found',
       error: err,
     });
   }

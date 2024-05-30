@@ -1,25 +1,33 @@
-This project shows how mongoose, express work in typescript
+# Second Assignment -level-2
 
-Tools needed for this project-
+  
 
-typescript
-mongoose
-express
-dotenv
-cors
-eslint
-prettier
-zod
+  ***
+  * This project shows how mongoose, express work in typescript 
+  * Tools needed for this project to
+     > *  typescript
+     > * mongoose
+     > * express
+     > * dotenv
+     > * cors
+     > * eslint
+     > * prettier
+     > * zod
+    
+     
+   * Installation
 
 
-Installation-
-npm i / npm install
+     > npm i / npm install
+    
 
-environment variables-
-open .env file and put database url, node env and port here
+  * environment variables
+   > open .env file and put database url, node env and port here
 
-Run the project-
+  * Run the project
+  > npm start:dev for development
+  > npm start:prod for production
 
-npm start:dev for development 
-npm start:prod for production
+  
 
+  live site link- https://level-2-second-assignment.vercel.app/

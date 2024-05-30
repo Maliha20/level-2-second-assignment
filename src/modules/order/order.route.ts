@@ -6,7 +6,7 @@ const router = express.Router()
 
 //creating order api
 
-router.post('/create-order', orderController.createAnOrder)
+router.post('/', orderController.createAnOrder)
 router.get('/', orderController.getAllOrders )
 
 
